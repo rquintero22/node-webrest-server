@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../data/postgres';
 import { CreateTodoDto, UpdateTodoDto } from '../../domain/dtos';
-import { CreateTodo, CustomErrors, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo } from '../../domain';
+import { CreateTodo, CustomError, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo } from '../../domain';
 
 export class TodosController {
 
@@ -10,7 +9,7 @@ export class TodosController {
     ) {}
 
     private handleError = (res: Response, error: unknown) => {
-        if(error instanceof CustomErrors) {
+        if(error instanceof CustomError) {
             res.status(error.statusCode).json({error: error.message});
             return;
         } 
