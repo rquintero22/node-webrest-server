@@ -7,7 +7,10 @@ import { AuthDatasourceImpl, MailDatasourceImpl, MailRepositoryImpl } from "../.
 export class AuthRoutes {
     static get routes() : Router {
         const router = Router();
-        const mailDataSource = new MailDatasourceImpl(envs.MAILER_SERVICE, envs.MAILER_EMAIL, envs.MAILER_SECRET_KEY);
+        const mailDataSource = new MailDatasourceImpl(envs.MAILER_SERVICE, 
+                                                      envs.MAILER_EMAIL, 
+                                                      envs.MAILER_SECRET_KEY,
+                                                      envs.SEND_EMAIL);
         const mailRepository = new MailRepositoryImpl(mailDataSource);
         const dataSource = new AuthDatasourceImpl(mailRepository);
         const authRepository = new AuthRepositoryImpl(dataSource);

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { TodoRoutes } from "./todos/routes";
 import { AuthRoutes } from "./auth/routes";
+import { CategoryRoutes } from "./categories/routes";
 
 export class AppRoutes {
     static get routes() : Router {
@@ -8,6 +9,7 @@ export class AppRoutes {
 
         router.use('/api/todos', TodoRoutes.routes);
         router.use('/api/auth', AuthRoutes.routes);
+        router.use('/api/categories', CategoryRoutes.routes);
 
         return router;
     }

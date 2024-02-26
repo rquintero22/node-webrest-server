@@ -10,7 +10,8 @@ export class MailDatasourceImpl implements MailDatasource {
     constructor(
         mailerService: string, 
         mailerEmail: string,
-        mailerEmailPassword: string
+        mailerEmailPassword: string,
+        private readonly postToProvider: boolean
       ) {
         this.transporter = nodemailer.createTransport( {
             service: mailerService,
@@ -28,14 +29,14 @@ export class MailDatasourceImpl implements MailDatasource {
     
         try {
     
-          const sentInformation = await this.transporter.sendMail( {
-            to: to,
-            subject: subject,
-            html: htmlBody,
-            attachments: attachements,
-          });
-    
-          // console.log( sentInformation );
+          if(this.postToProvider) {
+            const sentInformation = await this.transporter.sendMail( {
+              to: to,
+              subject: subject,
+              html: htmlBody,
+              attachments: attachements,
+            });
+          }
     
           return true;
         } catch ( error ) {
