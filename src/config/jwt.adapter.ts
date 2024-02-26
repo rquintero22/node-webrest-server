@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { envs } from './env.config';
+import { resolve } from 'path';
 
 const JWT_SEED = envs.JWT_SEED;
 
@@ -19,7 +20,13 @@ export class JwtAdapter {
 
     static validateToken(token: string) {
 
-        return ;
+        return new Promise((resolve) => {
+            jwt.verify(token, JWT_SEED, (error, decoded) => {
+                if (error) return resolve(null);
+
+                resolve(decoded);
+            })
+        });
     }
 
   
