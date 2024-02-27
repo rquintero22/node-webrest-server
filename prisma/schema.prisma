@@ -42,12 +42,13 @@ model category {
 }
 
 model product {
-  id              Int     @id @default(autoincrement())
-  name            String  @db.VarChar @unique
-  available       Boolean @db.Boolean @default(true)
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar @unique
+  available       Boolean  @db.Boolean @default(true)
   price           Decimal  @db.Decimal(20, 5) @default(0)
+  description     String   @db.VarChar
   category        category @relation(fields: [categoryId], references: [id])
   categoryId      Int
-  user            user    @relation(fields: [userId], references: [id])
+  user            user     @relation(fields: [userId], references: [id])
   userId          Int
 }

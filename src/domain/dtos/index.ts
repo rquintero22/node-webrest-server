@@ -7,4 +7,7 @@ export * from './auth/register-user.dto';
 export * from './categories/create-category.dto';
 export * from './categories/update-category.dto';
 
+export * from './products/create-product.dto';
+export * from './products/update-product.dto';
+
 export * from './shared/pagination.dto';
