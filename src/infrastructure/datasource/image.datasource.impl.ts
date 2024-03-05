@@ -1,12 +1,13 @@
 import path from "path";
 import fs from 'fs';
 import { UploadedFile } from "express-fileupload";
-import { Uuid } from "../../config";
+import { Uuid, builderLogger } from "../../config";
 import { CustomError } from "../../domain";
 import { ImageDatasource } from "../../domain/datasources";
 
 export class ImageDatasourceImpl implements ImageDatasource {
 
+    private logger = builderLogger('ImageDatasourceImpl.js'); 
     constructor(private readonly uuid = Uuid.v4) { }
 
     async getImage(type: string, img: string): Promise<any> {
@@ -22,7 +23,8 @@ export class ImageDatasourceImpl implements ImageDatasource {
                 return imagePath;
 
             } catch (error) {
-                console.error({ error });
+                this.logger.error(`${error}`);
+                //console.error({ error });
                 throw error;
             }
         

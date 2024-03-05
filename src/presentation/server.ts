@@ -18,18 +18,19 @@ export class Server {
     private readonly routes: Router;
 
     constructor(options: Options) {
-        const { port, routes, public_path = 'public' }  = options;
+        const { port, routes, public_path = 'public' } = options;
 
         this.port = port;
         this.publicPath = public_path;
-        this.routes = routes
+        this.routes = routes;
+
+        this.configure();
     }
 
-    async start() {
-
+    private configure() {
         // Middlewares
         this.app.use(express.json()); // habilita raw
-        this.app.use(express.urlencoded({extended: true})); // habilita x-www-form-url-enconded
+        this.app.use(express.urlencoded({ extended: true })); // habilita x-www-form-url-enconded
         this.app.use(compression());
         this.app.use(fileUpload({
             limits: { fileSize: 50 * 1024 * 1024 }
@@ -42,13 +43,16 @@ export class Server {
         this.app.use(this.routes);
 
         // * SPA
-        this.app.get('*', (req, res) => {
-            const indexPath = path.join(__dirname + `../../../${ this.publicPath }/index.html`);
+        this.app.get(/^\/(?!api).*/, (req, res) => {
+            const indexPath = path.join(__dirname + `../../../${this.publicPath}/index.html`);
             res.sendFile(indexPath);
             return;
         });
+    }
 
-        this.serverListener = this.app.listen(this.port, ()=> {
+    async start() {
+
+        this.serverListener = this.app.listen(this.port, () => {
             console.log(`Server running on port ${this.port}`);
         });
 
